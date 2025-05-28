@@ -11,7 +11,9 @@ public class Product {
     public int id;
     public String name;
     public Double price;
-    public ProductType type;
+    @Enumerated(EnumType.STRING)
+    private ProductType type;
+
 
 
     public Product(){
