@@ -18,7 +18,7 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product findById(Long id){
+    public Product findById(Integer id){
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
     }
 
@@ -34,7 +34,7 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public Product updateProduct(Product newProduct, Long id){
+    public Product updateProduct(Product newProduct, Integer id){
         Product existingProduct = findById(id);
 
         // Atualiza todos os campos
@@ -45,7 +45,12 @@ public class ProductService {
         return repository.save(existingProduct);
     }
 
-    public void delete(Long id) {
+    public List<Product> searchProducts(String name, ProductType type, Double minPrice, Double maxPrice) {
+        String typeString = (type != null) ? type.name() : null;
+        return repository.searchProductsNative(name, typeString, minPrice, maxPrice);
+    }
+
+    public void delete(Integer id) {
         Product produto = findById(id);
         repository.delete(produto);
     }

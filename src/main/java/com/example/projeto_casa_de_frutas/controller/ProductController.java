@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 public class ProductController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
+    public Product getById(@PathVariable Integer id) {
         return service.findById(id);
     }
 
@@ -42,14 +42,43 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         service.delete(id);
     }
 
     @PatchMapping("/{id}")
-    public Product patch(@PathVariable Long id, @RequestBody Product updates) {
+    public Product patch(@PathVariable Integer id, @RequestBody Product updates) {
         return service.updateProduct(updates, id);
     }
+
+    @GetMapping("/search")
+    public List<Product> searchProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String type,  // receber como String aqui
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice
+    ) {
+        ProductType productType = null;
+
+        // Converter tipo string para enum, tratar string vazia
+        if (type != null && !type.trim().isEmpty()) {
+            try {
+                productType = ProductType.valueOf(type.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // Tipo inválido, pode lançar exceção ou tratar como null
+                productType = null;
+            }
+        }
+
+        // Tratar name string vazia como null
+        if (name != null && name.trim().isEmpty()) {
+            name = null;
+        }
+
+        return service.searchProducts(name, productType, minPrice, maxPrice);
+    }
+
+
 
 
 }
