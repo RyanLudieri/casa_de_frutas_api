@@ -26,6 +26,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             @Param("maxPrice") Double maxPrice
     );
 
+    List<Product> findAllByOrderByNameAsc(); // nome é o campo a ser ordenado
 
     List<Product> findByNameContainingIgnoreCase(String name);
     Optional<Product> findByType(ProductType type);

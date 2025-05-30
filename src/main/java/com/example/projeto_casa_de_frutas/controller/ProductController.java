@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     public List<Product> listAll(){
-        return service.getAllProducts();
+        return service.getAllProductsAlphabetically();
     }
 
     @GetMapping("/{id}")

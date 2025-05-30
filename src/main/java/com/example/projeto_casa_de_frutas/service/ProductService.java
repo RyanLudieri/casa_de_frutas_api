@@ -18,6 +18,10 @@ public class ProductService {
         return repository.findAll();
     }
 
+    public List<Product> getAllProductsAlphabetically(){
+        return repository.findAllByOrderByNameAsc();
+    }
+
     public Product findById(Integer id){
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
     }
